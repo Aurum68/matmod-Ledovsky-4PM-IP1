@@ -1,12 +1,29 @@
+import math
+
 from core.SolveResult import SolveResult
-from core.solver import finite_difference_method
+from core.solver import finite_difference_method, newton_tangent_method
 from core.ui import Parameter, App
 from core.validators import Positive
+
+
+def find_t(
+        t0: float = 3,
+        eps: float = 1e-6,
+):
+    def f(t: float) -> float:
+        return (t - math.sin(t)) / (1 - math.cos(t)) - 4/3
+
+    def derivative(t: float) -> float:
+        return 1 - (math.sin(t) * (t - math.sin(t))) / ((1 - math.cos(t)) ** 2)
+
+    print(newton_tangent_method(f, derivative, t0, eps))
 
 
 def solve(data: dict[str, float]) -> SolveResult:
     x0, y0, x1, y1, step, accuracy = data['x0'], data['y0'], data['x1'], data['y1'], data['step'], data['accuracy']
     epsilon = 10 ** int(accuracy)
+
+    find_t()
 
     def f(x: float, y: float, dy: float) -> float:
         return - (dy ** 2 + 1) / (2 * y)
