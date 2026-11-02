@@ -175,11 +175,19 @@ class App:
     def __draw_graphics(self, result: SolveResult) -> None:
         self.ax.clear()
 
-        x_np, y_np = numpy.array(result.x_list), numpy.array(result.y_approximation)
+        x, y = result.x_list, result.y_approximation
+
+        if not (type(x)  is numpy.ndarray):
+            x = numpy.array(x)
+        if not (type(y) is numpy.ndarray):
+            y = numpy.array(y)
 
         self.ax.grid(True)
 
-        self.ax.plot(x_np, y_np, label=result.approx_legend, color='blue', linewidth=0.5)
+        self.ax.plot(x, y, label=result.approx_legend, color='blue', linewidth=0.5)
+
+        if result.invert_y:
+            self.ax.invert_yaxis()
 
         self.ax.legend()
         self.canvas.draw()
