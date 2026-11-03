@@ -3,7 +3,7 @@ import math
 from core.SolveResult import SolveResult
 from core.solver import finite_difference_method, newton_tangent_method
 from core.ui import Parameter, App
-from core.validators import Positive
+from core.validators import Positive, GreaterThan
 
 
 def find_t(
@@ -45,8 +45,14 @@ if __name__ == '__main__':
     params = [
         Parameter(key='x0', title='Начальная координата X (x0)', default='0', validators=[Positive(False)]),
         Parameter(key='y0', title='Начальная координата Y (y0)', default='0', validators=[Positive(False)]),
-        Parameter(key='x1', title='Конечная координата X (x1)', default='4', validators=[Positive(False)]),
-        Parameter(key='y1', title='Конечная координата Y (y1)', default='3', validators=[Positive(False)]),
+        Parameter(key='x1', title='Конечная координата X (x1)', default='4', validators=[
+            Positive(False),
+            GreaterThan('x0', True),
+        ]),
+        Parameter(key='y1', title='Конечная координата Y (y1)', default='3', validators=[
+            Positive(False),
+            GreaterThan('y0', True),
+        ]),
     ]
 
     app = App(
