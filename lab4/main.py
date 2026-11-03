@@ -8,10 +8,12 @@ from core.validators import Positive
 
 def find_t(
         t0: float = 3,
+        x1: float = 4,
+        y1: float = 3,
         eps: float = 1e-6,
 ):
     def f(t: float) -> float:
-        return (t - math.sin(t)) / (1 - math.cos(t)) - 4/3
+        return (t - math.sin(t)) / (1 - math.cos(t)) - x1/y1
 
     def derivative(t: float) -> float:
         return 1 - (math.sin(t) * (t - math.sin(t))) / ((1 - math.cos(t)) ** 2)
@@ -23,7 +25,7 @@ def solve(data: dict[str, float]) -> SolveResult:
     x0, y0, x1, y1, step, accuracy = data['x0'], data['y0'], data['x1'], data['y1'], data['step'], data['accuracy']
     epsilon = 10 ** int(accuracy)
 
-    find_t()
+    find_t(x1=x1, y1=y1, eps=epsilon)
 
     def f(x: float, y: float, dy: float) -> float:
         return - (dy ** 2 + 1) / (2 * y)
