@@ -31,3 +31,12 @@ def GreaterThan(other_key: str, strict: bool) -> Validator:
         ok = (x > values[other_key]) if strict else (x >= values[other_key])
         return None if ok else "Значение должно быть " + (f"> {values[other_key]}" if strict else f">= {values[other_key]}")
     return validator
+
+
+def LessThan(other_key: str, strict: bool) -> Validator:
+    def validator(x: float, values: dict[str, float]) -> str | None:
+        if other_key not in values:
+            return None
+        ok = (x < values[other_key]) if strict else (x <= values[other_key])
+        return None if ok else "Значение должно быть " + (f"< {values[other_key]}" if strict else f"<= {values[other_key]}")
+    return validator
