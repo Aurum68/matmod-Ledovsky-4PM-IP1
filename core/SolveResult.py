@@ -14,3 +14,4 @@ class SolveResult:
     approx_legend: str = "Приближённое решение"
 
     invert_y: bool = False
+    info_text: str = ""

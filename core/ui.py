@@ -138,6 +138,9 @@ class App:
 
         tk.Button(self.root, text='Рассчитать', command=self.__on_click_solve).grid(row=len(self.form.parameters), column=0, columnspan=2, padx=10, pady=10)
 
+        self.result_label = tk.Label(self.root, text="", font=("Arial", 11, "bold"), fg="darkblue")
+        self.result_label.grid(row=len(self.form.parameters) + 1, column=0, columnspan=2, pady=5)
+
         self.tree = ttk.Treeview(self.root, columns=('x', 'y'), show='headings')
         self.tree.grid(column=2, row=0, rowspan=10)
 
@@ -156,7 +159,10 @@ class App:
 
             self.__draw_table(result, accuracy)
             self.__draw_graphics(result)
-
+            if result.info_text != '':
+                self.result_label.config(text=result.info_text)
+            else:
+                self.result_label.config(text="Расчет завершен")
         except ValidationError as e:
             self.form.show_error(e)
 

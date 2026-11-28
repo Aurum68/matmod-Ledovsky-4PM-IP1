@@ -8,11 +8,15 @@ def __rk_compute(
         y0: float,
         x_end: float,
         step: float,
+        stop_condition: Callable[[float, float], bool] = None,
 ) -> tuple[list[float], list[float]]:
     x_list, y_list = [x0], [y0]
     x, y = x0, y0
 
     while x < x_end:
+        if stop_condition and stop_condition(x, y):
+            break
+
         k1 = function(x, y)
         k2 = function(x + step / 2, y + k1 * step / 2)
         k3 = function(x + step / 2, y + k2 * step / 2)
@@ -34,13 +38,14 @@ def runge_kutt(
         x_end: float,
         step: float,
         eps: float = 1e-6,
+        stop_condition: Callable[[float, float], bool] = None,
 ) -> tuple[list[float], list[float]]:
     x_prev, y_prev = __rk_compute(function, x0, y0, x_end, step)
 
     while True:
         step /= 2.0
 
-        x_curr, y_curr = __rk_compute(function, x0, y0, x_end, step)
+        x_curr, y_curr = __rk_compute(function, x0, y0, x_end, step, stop_condition)
 
         err = abs(y_curr[-1] - y_prev[-1]) / 15.0
 
